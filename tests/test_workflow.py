@@ -207,6 +207,22 @@ class WorkflowTests(unittest.TestCase):
         result = self.handoff(approval=synthetic)
         self.assertFalse(result.replayed)
 
+    def test_catalogue_file_cannot_silently_choose_between_duplicate_prices(self):
+        path = Path(self.temporary.name) / "ambiguous-catalogue.json"
+        raw = json.dumps(self.catalogue).replace('"unit_price": "12.50"',
+                                                 '"unit_price": "0.01", "unit_price": "12.50"')
+        path.write_text(raw, encoding="utf-8")
+        self.assert_code(ValidationError, "invalid_catalogue", lambda: load_catalogue(path))
+        self.assertEqual(self.crm.count_handoffs(), 0)
+
+    def test_catalogue_file_rejects_nonfinite_numbers_even_in_unused_metadata(self):
+        path = Path(self.temporary.name) / "nonstandard-catalogue.json"
+        for value in ("NaN", "Infinity", "1e999"):
+            with self.subTest(value=value):
+                raw = json.dumps(self.catalogue)[:-1] + ', "ignored_numeric_hint": ' + value + '}'
+                path.write_text(raw, encoding="utf-8")
+                self.assert_code(ValidationError, "invalid_catalogue", lambda: load_catalogue(path))
+
 
 if __name__ == "__main__":
     unittest.main()

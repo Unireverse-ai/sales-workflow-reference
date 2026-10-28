@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import re
 import sqlite3
 from dataclasses import asdict, dataclass
@@ -42,6 +43,35 @@ def canonical_json(value: Any) -> str:
 
 def digest(value: Any) -> str:
     return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def strict_json_loads(text: str) -> Any:
+    """Reject ambiguous keys and non-standard/unbounded JSON numbers."""
+    def object_from_pairs(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError("Duplicate JSON key: " + key)
+            value[key] = item
+        return value
+
+    def finite_number(raw):
+        number = float(raw)
+        if not math.isfinite(number):
+            raise ValueError("Non-finite JSON number.")
+        return number
+
+    def bounded_integer(raw):
+        if len(raw.lstrip("-")) > 16:
+            raise ValueError("JSON integer exceeds the bounded input protocol.")
+        return int(raw)
+
+    def reject_constant(raw):
+        raise ValueError("Non-standard JSON number: " + raw)
+
+    return json.loads(text, object_pairs_hook=object_from_pairs,
+                      parse_float=finite_number, parse_int=bounded_integer,
+                      parse_constant=reject_constant)
 
 
 @dataclass(frozen=True)
@@ -109,8 +139,8 @@ def validate_catalogue(catalogue: Dict[str, Any]) -> None:
 
 def load_catalogue(path: Path) -> Dict[str, Any]:
     try:
-        catalogue = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as error:
+        catalogue = strict_json_loads(path.read_text(encoding="utf-8"))
+    except (ValueError, RecursionError) as error:
         raise ValidationError("invalid_catalogue", "Catalogue must contain valid JSON.") from error
     validate_catalogue(catalogue)
     return catalogue

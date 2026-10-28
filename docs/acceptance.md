@@ -38,10 +38,12 @@ Both commands must exit with code `0`. The default demo must report `11/11` synt
 | S10 | Changed draft reuses committed enquiry ID | `inquiry_conflict`; prior record preserved |
 | S11 | Negative review decision | `approval_required` |
 
-The 29 test methods additionally check decimal arithmetic, duplicate structured fields, invalid and excessive quantities, boolean/float type-changing edits, non-finite values, directly supplied catalogue objects, source changes, catalogue changes (including attempted replay), a reapproved manipulated price, input bounds and stable canonical hashing. A separate test records the explicit limitation that a locally constructed positive review record is accepted without authenticating a person.
+The workflow tests additionally check decimal arithmetic, duplicate structured fields and catalogue JSON keys, invalid and excessive quantities, boolean/float type-changing edits, non-finite values, directly supplied catalogue objects, source changes, catalogue changes (including attempted replay), a reapproved manipulated price, input bounds and stable canonical hashing. A separate test records the explicit limitation that a locally constructed positive review record is accepted without authenticating a person.
+
+The extraction scorer has its own tests for schema validity, complete case coverage, duplicate/unknown IDs, denominators, abstention, catalogue admissibility and reproducible report snapshots. Run `python3 evaluate.py` for the actual parser's [32-case baseline](../evaluations/baseline-report.md), including the interpretation failures. The scorer exiting successfully means a complete valid run was scored; it does not enforce a deployment quality threshold or establish a model result.
 
 ## Review the gaps
 
 Before adapting this code to a client workflow, review [`production-gap.md`](production-gap.md). In particular, the scripted decision path must not be represented as an authenticated human approval system, and this deterministic parser must not be represented as a language-model evaluation.
 
-The CI workflow runs the same commands on its declared Python versions when configured on GitHub. A workflow file is not evidence that GitHub Actions has already run; inspect the actual run record after publication.
+The CI workflow runs the control suite, demo and extraction scorer on its declared Python versions. A workflow file is not evidence of an actual GitHub Actions run; inspect the current run record, job summary and available report artifacts.

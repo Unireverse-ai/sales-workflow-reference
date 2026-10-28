@@ -4,7 +4,7 @@ This reference is intended for local inspection with the included synthetic data
 
 ## Reporting
 
-For a suspected security issue, use the contact route on [unireverseai.com](https://unireverseai.com). Describe the affected file, a minimal synthetic reproduction and the expected boundary. Do not post credentials, customer data or private system details in a public issue. No security response time is promised for this reference.
+For a suspected security issue, contact [Eric@unireverseai.com](mailto:Eric@unireverseai.com), the published business contact. Start with the affected file, a minimal synthetic reproduction and the expected boundary. Arrange an appropriate sharing method before transmitting sensitive technical details; do not send credentials or customer data, or post them in a public issue. This is not a dedicated security response service and no response time is promised for the reference.
 
 ## Local data
 
