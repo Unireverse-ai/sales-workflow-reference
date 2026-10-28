@@ -1,0 +1,9 @@
+{
+  "version": "synthetic-catalogue-v1",
+  "currency": "EUR",
+  "notice": "Invented products and prices for a local software demonstration. Not a commercial offer.",
+  "products": {
+    "BRKT-100": {"description": "Synthetic mounting bracket", "unit_price": "12.50", "maximum_quantity": 10000},
+    "PANEL-200": {"description": "Synthetic enclosure panel", "unit_price": "35.75", "maximum_quantity": 5000}
+  }
+}
