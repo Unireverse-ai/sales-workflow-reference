@@ -1,6 +1,6 @@
 # Sales Workflow Reference
 
-[![Synthetic reference checks](https://github.com/UniReverseAI/sales-workflow-reference/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/UniReverseAI/sales-workflow-reference/actions/workflows/checks.yml)
+[![Synthetic reference checks](https://github.com/tom-unireverse/sales-workflow-reference/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/tom-unireverse/sales-workflow-reference/actions/workflows/checks.yml)
 
 ### From enquiry to reviewed handoff.
 
@@ -16,7 +16,7 @@ The interesting part is what happens when the input is incomplete, a draft chang
 2. Inspect the [dataset card](evaluations/DATASET_CARD.md) and [evaluation protocol](docs/evaluation.md): public English/German/Chinese development cases, explicit labels, denominators and a provider-neutral output format.
 3. Run the control demo below, then review the [production gap](docs/production-gap.md). Passing transaction/review checks does not make the parser suitable for natural customer enquiries.
 
-For the commercial delivery path, see the [buyer's guide](https://github.com/UniReverseAI/delivery-playbook) and [AI value assessment](https://github.com/UniReverseAI/ai-value-assessment).
+For the commercial delivery path, see the [buyer's guide](https://github.com/tom-unireverse/delivery-playbook) and [AI value assessment](https://github.com/tom-unireverse/ai-value-assessment).
 
 ## Run the evidence
 
